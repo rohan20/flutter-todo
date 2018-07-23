@@ -42,7 +42,12 @@ class _ToDoScreenState extends State<ToDoScreen> {
   }
 
   _buildToDoListItem(int index) {
-    return ToDoItem(allToDoList[index]);
+    return ToDoItem(
+      allToDoList[index],
+      onTodoTapped: (ToDo todo) {
+        _handleTodoTap(todo);
+      },
+    );
   }
 
   FloatingActionButton _fab() {
@@ -61,8 +66,6 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   _fabPressed() {
     print("Added new todo");
-//    allToDoList.add(new ToDo("New todo", true));
-
     _showDialogToEnterTodo();
   }
 
@@ -116,7 +119,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
             if (titleTextController.text.isNotEmpty) {
               if (isAddTodoButton) {
                 setState(() {
-                  allToDoList.add(new ToDo(titleTextController.text, true));
+                  allToDoList.insert(
+                      0, new ToDo(titleTextController.text, false));
                 });
               }
             }
@@ -132,5 +136,21 @@ class _ToDoScreenState extends State<ToDoScreen> {
     // Clean up the controller when the Widget is disposed
     titleTextController.dispose();
     super.dispose();
+  }
+
+  void _handleTodoTap(ToDo todo) {
+    setState(() {
+      allToDoList.remove(todo);
+
+      if (todo.isChecked) {
+        //if todo was checked, uncheck it and move it to the top
+        todo.isChecked = false;
+        allToDoList.insert(0, todo);
+      } else {
+        //if todo was unchecked, check it and move it to the bottom
+        todo.isChecked = true;
+        allToDoList.insert(allToDoList.length, todo);
+      }
+    });
   }
 }
