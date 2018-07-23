@@ -8,6 +8,8 @@ class ToDoScreen extends StatefulWidget {
 }
 
 class _ToDoScreenState extends State<ToDoScreen> {
+  List<ToDo> allToDoList = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return Container(
       margin: const EdgeInsets.only(top: 12.0),
       child: ListView.builder(
-        itemCount: _dummyToDoList().length,
+        itemCount: allToDoList.length,
         itemBuilder: (context, index) {
           return _buildToDoListItem(index);
         },
@@ -35,41 +37,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
     );
   }
 
-  List<ToDo> _dummyToDoList() {
-    return <ToDo>[
-      ToDo(
-        "Buy eggs & milk",
-      ),
-      ToDo(
-        "Iron shirts",
-        true,
-      ),
-      ToDo(
-        "Buy eggs & milk",
-      ),
-      ToDo(
-        "Iron shirts",
-        true,
-      ),
-      ToDo(
-        "Buy eggs & milk",
-      ),
-      ToDo(
-        "Iron shirts",
-        true,
-      ),
-      ToDo(
-        "Buy eggs & milk",
-      ),
-      ToDo(
-        "Iron shirts",
-        true,
-      ),
-    ];
-  }
-
   _buildToDoListItem(int index) {
-    return ToDoItem(_dummyToDoList()[index]);
+    return ToDoItem(allToDoList[index]);
   }
 
   FloatingActionButton _fab() {
@@ -79,13 +48,15 @@ class _ToDoScreenState extends State<ToDoScreen> {
         color: Colors.white,
       ),
       onPressed: () {
-        _fabPressed();
+        setState(() {
+          _fabPressed();
+        });
       },
     );
   }
 
   _fabPressed() {
     print("Added new todo");
+    allToDoList.add(new ToDo("New todo", true));
   }
-
 }
