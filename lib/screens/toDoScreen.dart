@@ -71,19 +71,42 @@ class _ToDoScreenState extends State<ToDoScreen> {
           return AlertDialog(
             title: Text("Enter todo title"),
             contentPadding: const EdgeInsets.all(12.0),
-            content: Row(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      labelText: "Title",
-                      hintText: "Eg: Buy eggs",
-                    ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Title",
+                    hintText: "Eg: Buy eggs",
                   ),
-                )
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 12.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      _alertDialogButton("Cancel", Colors.red),
+                      SizedBox(width: 12.0),
+                      _alertDialogButton("Add", Colors.green),
+                    ],
+                  ),
+                ),
               ],
             ),
           );
         });
+  }
+
+  _alertDialogButton(String buttonText, Color textColor) {
+    return Expanded(
+      child: RaisedButton(
+          color: Colors.white,
+          child: Text(buttonText),
+          textColor: textColor,
+          onPressed: () {
+            Navigator.of(context).pop();
+          }),
+    );
   }
 }
