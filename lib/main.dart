@@ -1,3 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:to_do_app/App.dart';
 
-void main() {}
+void main() {
+  new App();
+}
