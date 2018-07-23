@@ -10,6 +10,8 @@ class ToDoScreen extends StatefulWidget {
 }
 
 class _ToDoScreenState extends State<ToDoScreen> {
+  TextEditingController titleTextController = TextEditingController();
+
   List<ToDo> allToDoList = [];
 
   @override
@@ -69,14 +71,16 @@ class _ToDoScreenState extends State<ToDoScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text("Enter todo title"),
             contentPadding: const EdgeInsets.all(12.0),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
+                  enabled: true,
+                  controller: titleTextController,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: "Title",
+                    labelText: "Todo Title",
                     hintText: "Eg: Buy eggs",
                   ),
                 ),
@@ -88,7 +92,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                     children: <Widget>[
                       _alertDialogButton("Cancel", Colors.red),
                       SizedBox(width: 12.0),
-                      _alertDialogButton("Add", Colors.green),
+                      _alertDialogButton("Add", Colors.green, true),
                     ],
                   ),
                 ),
@@ -98,15 +102,35 @@ class _ToDoScreenState extends State<ToDoScreen> {
         });
   }
 
-  _alertDialogButton(String buttonText, Color textColor) {
+  _alertDialogButton(
+    String buttonText,
+    Color textColor, [
+    bool isAddTodoButton = false,
+  ]) {
     return Expanded(
       child: RaisedButton(
           color: Colors.white,
           child: Text(buttonText),
           textColor: textColor,
           onPressed: () {
+            if (titleTextController.text.isNotEmpty) {
+              if (isAddTodoButton) {
+                setState(() {
+                  allToDoList.add(new ToDo(titleTextController.text, true));
+                });
+              }
+            }
+
+            titleTextController.clear();
             Navigator.of(context).pop();
           }),
     );
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the Widget is disposed
+    titleTextController.dispose();
+    super.dispose();
   }
 }
