@@ -9,25 +9,34 @@ class _ToDoScreenState extends State<ToDoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter To Do"),
-      ),
+      appBar: _appBar(),
       body: Container(
         color: Colors.white,
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          _fabPressed();
-        },
+      floatingActionButton: _fab(),
+    );
+  }
+
+  AppBar _appBar() {
+    return AppBar(
+      title: Text("Flutter To Do"),
+    );
+  }
+
+  FloatingActionButton _fab() {
+    return FloatingActionButton(
+      child: Icon(
+        Icons.add,
+        color: Colors.white,
       ),
+      onPressed: () {
+        _fabPressed();
+      },
     );
   }
 
   _fabPressed() {
     print("Added new todo");
   }
+
 }
