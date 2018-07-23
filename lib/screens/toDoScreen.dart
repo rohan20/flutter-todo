@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_app/items/toDoItem.dart';
 import 'package:to_do_app/model/toDo.dart';
@@ -57,6 +59,31 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   _fabPressed() {
     print("Added new todo");
-    allToDoList.add(new ToDo("New todo", true));
+//    allToDoList.add(new ToDo("New todo", true));
+
+    _showDialogToEnterTodo();
+  }
+
+  Future<Null> _showDialogToEnterTodo() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Enter todo title"),
+            contentPadding: const EdgeInsets.all(12.0),
+            content: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: "Title",
+                      hintText: "Eg: Buy eggs",
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        });
   }
 }
