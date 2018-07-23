@@ -45,7 +45,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return ToDoItem(
       allToDoList[index],
       onTodoTapped: (ToDo todo) {
-        _handleTodoTap(todo);
+        setState(() {
+          _handleTodoTap(todo);
+        });
       },
     );
   }
@@ -79,7 +81,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
-                  enabled: true,
+                  maxLines: 1,
                   controller: titleTextController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -139,18 +141,18 @@ class _ToDoScreenState extends State<ToDoScreen> {
   }
 
   void _handleTodoTap(ToDo todo) {
-    setState(() {
-      allToDoList.remove(todo);
+    int newPositionOfTodo;
+    allToDoList.remove(todo);
 
-      if (todo.isChecked) {
-        //if todo was checked, uncheck it and move it to the top
-        todo.isChecked = false;
-        allToDoList.insert(0, todo);
-      } else {
-        //if todo was unchecked, check it and move it to the bottom
-        todo.isChecked = true;
-        allToDoList.insert(allToDoList.length, todo);
-      }
-    });
+    if (todo.isChecked) {
+      //if todo was checked, uncheck it and move it to the top
+      newPositionOfTodo = 0;
+    } else {
+      //if todo was unchecked, check it and move it to the bottom
+      newPositionOfTodo = allToDoList.length;
+    }
+
+    todo.isChecked = !todo.isChecked;
+    allToDoList.insert(newPositionOfTodo, todo);
   }
 }
