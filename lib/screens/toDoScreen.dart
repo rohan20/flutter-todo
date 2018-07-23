@@ -15,6 +15,19 @@ class _ToDoScreenState extends State<ToDoScreen> {
       body: Container(
         color: Colors.white,
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          _fabPressed();
+        },
+      ),
     );
+  }
+
+  _fabPressed() {
+    print("Added new todo");
   }
 }
