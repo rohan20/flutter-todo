@@ -1,4 +1,4 @@
-import 'package:to_do_app/App.dart';
+import 'package:to_do_app/app.dart';
 
 void main() {
   new App();

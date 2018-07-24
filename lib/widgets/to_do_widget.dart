@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/model/toDo.dart';
+import 'package:to_do_app/model/to_do.dart';
 
 class ToDoItem extends StatelessWidget {
-  ToDo _toDo;
+  final ToDo _toDo;
+  final bool _isChecked;
 
   ValueChanged<ToDo> onTodoTapped;
 
-  ToDoItem(this._toDo, {@required this.onTodoTapped});
+  ToDoItem(this._toDo, this._isChecked, {@required this.onTodoTapped});
 
   void _todoTapped() {
     onTodoTapped(_toDo);
@@ -19,7 +20,7 @@ class ToDoItem extends StatelessWidget {
         _todoTapped();
       },
       child: Container(
-        color: _toDo.isChecked ? Colors.green[100] : null,
+        color: _isChecked ? Colors.green[100] : null,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Row(
@@ -31,7 +32,7 @@ class ToDoItem extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline,
               ),
               Icon(
-                _toDo.isChecked ? Icons.done : null,
+                _isChecked ? Icons.done : null,
                 color: Colors.white,
                 size: 40.0,
               )

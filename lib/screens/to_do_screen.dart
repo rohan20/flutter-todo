@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:to_do_app/items/toDoItem.dart';
-import 'package:to_do_app/model/toDo.dart';
+import 'package:to_do_app/widgets/to_do_widget.dart';
+import 'package:to_do_app/model/to_do.dart';
 
 class ToDoScreen extends StatefulWidget {
   @override
@@ -12,7 +12,8 @@ class ToDoScreen extends StatefulWidget {
 class _ToDoScreenState extends State<ToDoScreen> {
   TextEditingController titleTextController = TextEditingController();
 
-  List<ToDo> allToDoList = [];
+  List<ToDo> todosList = [];
+  Set<ToDo> checkedTodos = Set<ToDo>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     return Container(
       margin: const EdgeInsets.only(top: 12.0),
       child: ListView.builder(
-        itemCount: allToDoList.length,
+        itemCount: todosList.length,
         itemBuilder: (context, index) {
           return _buildToDoListItem(index);
         },
@@ -43,7 +44,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   _buildToDoListItem(int index) {
     return ToDoItem(
-      allToDoList[index],
+      todosList[index],
+      checkedTodos.contains(todosList[index]),
       onTodoTapped: (ToDo todo) {
         setState(() {
           _handleTodoTap(todo);
@@ -81,6 +83,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextField(
+                  autofocus: true,
                   maxLines: 1,
                   controller: titleTextController,
                   keyboardType: TextInputType.text,
@@ -121,8 +124,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
             if (titleTextController.text.isNotEmpty) {
               if (isAddTodoButton) {
                 setState(() {
-                  allToDoList.insert(
-                      0, new ToDo(titleTextController.text, false));
+                  todosList.insert(0, new ToDo(titleTextController.text));
                 });
               }
             }
@@ -142,17 +144,18 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   void _handleTodoTap(ToDo todo) {
     int newPositionOfTodo;
-    allToDoList.remove(todo);
+    todosList.remove(todo);
 
-    if (todo.isChecked) {
+    if (checkedTodos.contains(todo)) {
       //if todo was checked, uncheck it and move it to the top
       newPositionOfTodo = 0;
+      checkedTodos.remove(todo);
     } else {
       //if todo was unchecked, check it and move it to the bottom
-      newPositionOfTodo = allToDoList.length;
+      newPositionOfTodo = todosList.length;
+      checkedTodos.add(todo);
     }
 
-    todo.isChecked = !todo.isChecked;
-    allToDoList.insert(newPositionOfTodo, todo);
+    todosList.insert(newPositionOfTodo, todo);
   }
 }
