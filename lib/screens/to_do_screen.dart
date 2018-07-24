@@ -51,6 +51,11 @@ class _ToDoScreenState extends State<ToDoScreen> {
           _handleTodoTap(todo);
         });
       },
+      onTodoDismissed: (ToDo todo) {
+        setState(() {
+          _handleTodoDismissed(todo);
+        });
+      },
     );
   }
 
@@ -157,5 +162,10 @@ class _ToDoScreenState extends State<ToDoScreen> {
     }
 
     todosList.insert(newPositionOfTodo, todo);
+  }
+
+  void _handleTodoDismissed(ToDo todo) {
+    checkedTodos.remove(todo);
+    todosList.remove(todo);
   }
 }
