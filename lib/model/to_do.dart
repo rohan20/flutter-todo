@@ -9,4 +9,10 @@ class ToDo {
   int get id => _id;
 
   String get title => _title;
+
+  @override
+  int get hashCode => _id;
+
+  @override
+  String toString() => "$title $id";
 }
