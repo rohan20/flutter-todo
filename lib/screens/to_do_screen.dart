@@ -74,7 +74,6 @@ class _ToDoScreenState extends State<ToDoScreen> {
   }
 
   _fabPressed() {
-    print("Added new todo");
     _showDialogToEnterTodo();
   }
 
@@ -142,9 +141,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   @override
   void dispose() {
+    super.dispose();
     // Clean up the controller when the Widget is disposed
     titleTextController.dispose();
-    super.dispose();
   }
 
   void _handleTodoTap(ToDo todo) {
